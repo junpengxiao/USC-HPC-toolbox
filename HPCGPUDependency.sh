@@ -14,3 +14,7 @@ export LD_LIBRARY_PATH=/usr/usc/cuDNN/7.0.64/lib64:$LD_LIBRARY_PATH
 # LLVM
 export PATH=/usr/usc/llvm/default/bin:$PATH
 export LD_LIBRARY_PATH=/usr/usc/llvm/default/lib:$LD_LIBRARY_PATH
+
+#HPCNODE
+host=`grep hostname timestamp | sed 's/hostname:\(.*\)/\1/'`
+export host
