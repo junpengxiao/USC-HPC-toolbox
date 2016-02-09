@@ -2,7 +2,7 @@
 
 #check if we aleady have an instance
 flag=""
-hostname=""
+host=""
 if [ -e timestamp ]; then
     tmp=`grep expire timestamp | sed 's/expire:\(.*\)/\1/'`
     now=`date +%s`
@@ -10,7 +10,7 @@ if [ -e timestamp ]; then
 	echo "timestamp expired"
 	flag=true
     else
-	hostname=`grep hostname timestamp | sed 's/hostname:\(.*\)/\1/'`
+	host=`grep hostname timestamp | sed 's/hostname:\(.*\)/\1/'`
     fi
     else 
     echo "Can't find timestamp, timestamp created"
@@ -25,6 +25,8 @@ if [ $flag ]; then
     ((tmp+=43200))
     echo $tmp >> timestamp
     tmp=`qsub RequestHPCGPU.sh | sed 's/\([0-9]*\).*/\1/'`
-    hostname=`qstat -f $tmp | grep exec_host | sed 's/.*\(hpc[0-9]*\).*/\1/'`
-    echo hostname:$hostname >> timestamp
+    host=`qstat -n $tmp |  sed -n '$p' | sed 's/.*\(hpc[0-9]*\).*/\1/'`
+    echo hostname:$host >> timestamp
 fi
+
+echo host: $host
