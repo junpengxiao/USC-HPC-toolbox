@@ -11,8 +11,11 @@ if [ -e timestamp ]; then
 	flag=true
     else
 	host=`grep hostname timestamp | sed 's/hostname:\(.*\)/\1/'`
+	if [ $host = "--" ]; then
+	    source UpdateHost.sh
+	fi
     fi
-    else 
+else 
     echo "Can't find timestamp, timestamp created"
     flag=true
 fi
@@ -30,3 +33,4 @@ if [ $flag ]; then
 fi
 
 echo host: $host
+rm TonyGPU*
